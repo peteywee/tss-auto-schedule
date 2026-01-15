@@ -30,11 +30,8 @@ export function validateEnv(input: NodeJS.ProcessEnv): Env {
   const parsed = envSchema.safeParse(input);
 
   if (!parsed.success) {
-    // Fail fast with actionable error output (no guessing)
-    // eslint-disable-next-line no-console
     console.error("❌ Invalid environment variables:");
     for (const issue of parsed.error.issues) {
-      // eslint-disable-next-line no-console
       console.error(`  - ${issue.path.join(".")}: ${issue.message}`);
     }
     throw new Error("Invalid environment variables");

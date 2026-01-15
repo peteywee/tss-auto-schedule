@@ -32,8 +32,6 @@ export function createLogger(component: string) {
       ...(data ? { data } : {}),
     };
 
-    // Use console methods to preserve stack traces in dev
-    // eslint-disable-next-line no-console
     const fn =
       level === "error"
         ? console.error
