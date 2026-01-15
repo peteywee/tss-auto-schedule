@@ -9,7 +9,7 @@ const envSchema = z.object({
   // Provider selection (future)
   DATABASE_PROVIDER: z.enum(["supabase", "postgres"]).default("supabase"),
 
-  // Supabase (optional until you wire it)
+  // Supabase (optional until wired)
   NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1).optional(),
   SUPABASE_SERVICE_KEY: z.string().min(1).optional(),

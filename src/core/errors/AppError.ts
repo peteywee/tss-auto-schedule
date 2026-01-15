@@ -69,7 +69,6 @@ export class AppError extends Error {
   }
 
   static internal(message = "Internal server error", context?: Record<string, unknown>) {
-    // internal errors are not always operational; set isOperational=false
     return new AppError(message, "INTERNAL_ERROR", 500, false, context);
   }
 
