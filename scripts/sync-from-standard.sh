@@ -14,7 +14,6 @@ echo "  FROM: ${STANDARD_DIR}"
 echo "  TO:   ${ROOT_DIR}"
 
 # Copy TSSAS folder
-mkdir -p "${ROOT_DIR}/.top-shelf"
 rm -rf "${ROOT_DIR}/.top-shelf"
 cp -R "${STANDARD_DIR}/.top-shelf" "${ROOT_DIR}/.top-shelf"
 
@@ -28,7 +27,6 @@ cp -f "${STANDARD_DIR}/src/services/base.service.ts" "${ROOT_DIR}/src/services/b
 
 # Record synced commit hash for auditability
 STANDARD_SHA="$(cd "${STANDARD_DIR}" && git rev-parse HEAD)"
-mkdir -p "${ROOT_DIR}/.top-shelf"
 cat > "${ROOT_DIR}/.top-shelf/standard.lock" <<EOF
 standard_repo_path=../tss-standard
 standard_commit=${STANDARD_SHA}
