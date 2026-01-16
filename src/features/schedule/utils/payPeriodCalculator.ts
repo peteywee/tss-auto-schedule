@@ -2,12 +2,13 @@ import type { ISODate, PayPeriodInfo, Shift, Week } from "@/features/schedule/ty
 import { addDaysISO, dayOfWeekISO, compareISO } from "@/features/schedule/utils/date";
 
 /**
- * Business rule:
- * - Pay periods start on Wednesday and run 14 days (Wed..Tue).
- * - endDate = startDate + 13 days (Tuesday)
+ * Pay periods:
+ * - Start: Wednesday
+ * - Duration: 14 days (Wed..Tue)
+ * - endDate = startDate + 13 days
  * - payDate = endDate + 2 days (Thursday)
  *
- * NOTE: This computes the pay period that CONTAINS the given date.
+ * Computes the pay period that CONTAINS the given ISODate.
  */
 export function calculatePayPeriodForDate(date: ISODate): PayPeriodInfo {
   const startDate = findMostRecentWednesday(date);
@@ -28,8 +29,7 @@ export function findMostRecentWednesday(date: ISODate): ISODate {
 }
 
 /**
- * Group shifts into Wed..Tue weeks (7-day weeks) based on each shift.date.
- * Each week.startDate is Wednesday.
+ * Group shifts into Wed..Tue weeks (7-day weeks) based on shift.date.
  */
 export function groupShiftsByWeek(shifts: Shift[]): Week[] {
   const buckets = new Map<ISODate, Shift[]>();
@@ -41,7 +41,7 @@ export function groupShiftsByWeek(shifts: Shift[]): Week[] {
     buckets.set(weekStart, list);
   }
 
-  const weeks: Week[] = Array.from(buckets.entries())
+  return Array.from(buckets.entries())
     .sort(([a], [b]) => compareISO(a, b))
     .map(([startDate, list]) => {
       const sorted = [...list].sort((x, y) => compareISO(x.date, y.date));
@@ -54,6 +54,4 @@ export function groupShiftsByWeek(shifts: Shift[]): Week[] {
         totalHours: Math.round(totalHours * 100) / 100,
       };
     });
-
-  return weeks;
 }
